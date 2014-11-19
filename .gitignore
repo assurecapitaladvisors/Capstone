@@ -1,0 +1,5 @@
+env
+chords/uploads/*
+*.db
+**/*.pyc
+*.p
