@@ -62,6 +62,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 '''
 
+import os
 import urllib2
 import time
 import datetime
@@ -313,6 +314,10 @@ def graphData(stock):
     plt.tight_layout()
     #plt.subplots_adjust(left=.09, bottom=.14, right=.94, top=.95, wspace=.20, hspace=0)
     plt.show()
-    fig.savefig('/root/stockGraphs/stocks/static/chart.png',facecolor=fig.get_facecolor())
+    fig.savefig(
+      os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        'static/chart.png'
+      ),facecolor=fig.get_facecolor())
        
 
