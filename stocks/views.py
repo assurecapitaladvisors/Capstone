@@ -1,7 +1,7 @@
 from flask import render_template
 
-from stocks import app, graph
-from stocks.graph import BadTickerException
+from stocks import app
+from stocks.graph import BadTickerException, graphData
 from flask.ext.wtf import Form
 from wtforms import StringField
 
@@ -15,24 +15,20 @@ class TickerForm(Form):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    # Turn this into a field on the webpage for users to enter a ticker
-    tickerIsBad = False
     form = TickerForm()
     if form.validate_on_submit():
         ticker = form.data['ticker']
-
-        # ticker = "CHRIS/CME_CL1"
         if not ticker:
-            tickerIsBad = True
+            print "NOT TICKER"
+            return render_template("index.html", form=form, noTicker=True)
         else:
             try:
-                graph.graphData(ticker)
-            except BadTickerException:
-                tickerIsBad = True
-            
-        # return app.send_static_file("index.html")
-        return render_template("index.html", form=form, badTicker=tickerIsBad, ticker=ticker)
-    return render_template("index.html", form=form)    
+                graphData(ticker)
+            except BadTickerException as e:
+                return render_template("index.html", form=form, badTicker=True,
+                        ticker=ticker, provider=e.message['provider'],
+                        reason=e.message.get('reason', ''))
+    return render_template("index.html", form=form)
 
 @app.route("/", methods=["GET"])
 def get_chart():
