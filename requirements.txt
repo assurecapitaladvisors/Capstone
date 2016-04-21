@@ -13,3 +13,4 @@ quandl
 pandas
 Flask-Assets
 Flask-WTF
+requests
