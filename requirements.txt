@@ -12,3 +12,4 @@ matplotlib==1.4.2
 quandl
 pandas
 Flask-Assets
+Flask-WTF
